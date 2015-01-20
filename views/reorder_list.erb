@@ -16,11 +16,18 @@
 <% if @reorder_list != [] %>
 <h3>Here are all the tasks in this list:</h3>
 
-<ul>
+<table border="2px">
   <% @reorder_list.each() do |task| %>
-  <li><%= task.description() %></li>
+  <tr>
+    <td>
+      <%= task.description() %>
+    </td>
+    <td>
+      <%= task.due_date() %>
+    </td>
+  </tr>
   <% end %>
-</ul>
+</table>
 
 <form action="/lists/<%= @id %>">
   <input type="hidden" name="reorder" value="yes">

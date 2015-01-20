@@ -16,15 +16,22 @@
 <% if @list.tasks().any?() %>
 <h3>Here are all the tasks in this list:</h3>
 
-<ul>
+<table border="2px">
   <% @list.tasks().each() do |task| %>
-  <li><%= task.description() %></li>
+  <tr>
+  <td>
+  <%= task.description() %>
+  </td>
+  <td>
+    <%= task.due_date() %>
+  </td>
+  </tr>
   <% end %>
-</ul>
+</table>
 
 <form action="/lists/<%= @id %>">
-  <input type="submit" value="order by due date">
   <input type="hidden" name="reorder" value="yes">
+  <input type="submit" value="order by due date">
 </form>
 
 <% else %>
