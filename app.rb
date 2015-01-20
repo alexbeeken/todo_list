@@ -15,11 +15,11 @@ end
 
 post("/tasks") do
   description = params.fetch("description")
-  list_id = params.fetch("list_id").to_i()
+  @id = params.fetch("list_id").to_i()
   due_date = params.fetch("due_date")
-  task = Task.new({:description => description, :list_id => list_id, :due_date => due_date})
+  task = Task.new({:description => description, :list_id => @id, :due_date => due_date})
   task.save()
-  @list = List.find(list_id)
+  @list = List.find(@id)
   erb(:list)
 end
 
@@ -33,5 +33,13 @@ end
 
 get("/lists/:id") do
   @list = List.find(params.fetch("id").to_i())
+  @id = params.fetch("id")
+  @reorder = params[:reorder]
+  if @reorder == nil
   erb(:list)
+  else
+  @reorder_list = @list.order_by_dd()
+  erb(:reorder_list)
+
+end
 end

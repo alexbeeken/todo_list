@@ -6,25 +6,25 @@
   <label for="description">Description of the task:</label>
   <input id="description" name="description" type="text">
   <label>Due Date:
-  <input id="due_date" type="text" name="due_date" placeholder="YYYY-MM-DD">
+    <input id="due_date" type="text" name="due_date" placeholder="YYYY-MM-DD">
   </label>
 
 
   <button type="submit">Add task</button>
 </form>
 
-<% if @list.tasks().any?() %>
+<% if @reorder_list != [] %>
 <h3>Here are all the tasks in this list:</h3>
 
 <ul>
-  <% @list.tasks().each() do |task| %>
+  <% @reorder_list.each() do |task| %>
   <li><%= task.description() %></li>
   <% end %>
 </ul>
 
 <form action="/lists/<%= @id %>">
-  <input type="submit" value="order by due date">
   <input type="hidden" name="reorder" value="yes">
+  <input type="submit" value="order by due date">
 </form>
 
 <% else %>
