@@ -47,4 +47,16 @@ class List
     end
     list_tasks
   end
+
+  define_method(:order_by_dd) do
+    list_tasks = []
+    tasks = DB.exec("SELECT * FROM tasks WHERE list_id = #{self.id()} ORDER BY due_date ASC;")
+    tasks.each() do |task|
+      description = task.fetch("description")
+      list_id = task.fetch("list_id").to_i()
+      due_date = task.fetch("due_date")
+      list_tasks.push(Task.new(:description => description, :list_id => list_id, :due_date => due_date))
+    end
+    list_tasks
+  end
 end

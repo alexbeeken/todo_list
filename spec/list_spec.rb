@@ -1,14 +1,8 @@
 require('rspec')
-require('pg')
+require('spec_helper')
 require('list')
-
-DB = PG.connect({:dbname => 'to_do_test'})
-
-RSpec.configure do |config|
-  config.after(:each) do
-    DB.exec("DELETE FROM lists *;")
-  end
-end
+require('task')
+require('pg')
 
 describe(List) do
   describe(".all") do
@@ -16,7 +10,7 @@ describe(List) do
       expect(List.all()).to(eq([]))
     end
   end
-  
+
   describe("#name") do
     it("tells you its name") do
       list = List.new({:name => "Epicodus stuff", :id => nil})
@@ -47,4 +41,16 @@ describe(List) do
       expect(list1).to(eq(list2))
     end
   end
+
+  describe(".order_by_dd") do
+    it("lists in order by due date") do
+    test_list = List.new({:name => "job search", :id => 1})
+    test_task = Task.new({:description => "learn SQL", :list_id => 1, :due_date => "2015-01-25"})
+    test_task.save()
+    test_task2 = Task.new({:description => "2012", :list_id => 1, :due_date => "2012-02-15"})
+    test_task2.save()
+    order_list = test_list.order_by_dd()
+    expect(order_list[0].description()).to(eq("2012"))
+  end
+ end
 end

@@ -1,14 +1,8 @@
 require('rspec')
+require('spec_helper')
+require('list')
 require('task')
-
-DB = PG.connect({:dbname => "to_do_test"})
-
-RSpec.configure do |config|
-  config.after(:each) do
-    DB.exec("DELETE FROM lists *;")
-    DB.exec("DELETE FROM tasks *;")
-  end
-end
+require('pg')
 
 describe(Task) do
   describe(".all") do
@@ -46,10 +40,12 @@ describe(Task) do
     end
   end
 
+
+
   describe("#==") do
     it("is the same task if it has the same description and list ID") do
       task1 = Task.new({:description => "learn SQL", :list_id => 1, :due_date => "2015-01-25"})
-      task2 = Task.new({:description => "learn SQL", :list_id => 1, :due_date => "2015-01-26"})
+      task2 = Task.new({:description => "learn SQL", :list_id => 1, :due_date => "2015-01-25"})
       expect(task1).to(eq(task2))
     end
   end
